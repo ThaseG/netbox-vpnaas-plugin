@@ -24,11 +24,9 @@ This plugin extends NetBox to manage and orchestrate VPN services, integrating n
 - **API-driven**: Full REST API for external integrations
 
 ### Container Technologies
-- **Kubernetes**: Primary orchestration platform
-- **Docker**: Container runtime support
-- **Helm Charts**: Simplified deployment and configuration
-- **Horizontal Pod Autoscaler**: CPU/memory-based scaling
-- **Custom Resource Definitions**: Kubernetes-native VPN management
+- **NetBox Docker Plugin**: Primary orchestration platform [Using NetBox Docker Plugin]() & [NetBox Docker Agent]()
+- **Container Services**: Planned orchestration platform using Public Cloud services
+- **Kubernetes**: Planned orchestration platform using Public Cloud services
 
 ## Architecture
 
