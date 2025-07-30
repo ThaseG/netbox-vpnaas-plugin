@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}VPN as a Service{% endblock %}
+
+{% block nav-tabs %}
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link {% if 'remoteaccesstunnel' in request.resolver_match.url_name %}active{% endif %}" 
+               href="{% url 'plugins:netbox_vpnaas:remoteaccesstunnel_list' %}">
+                Remote Access Tunnels
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if 'dns' in request.resolver_match.url_name %}active{% endif %}" 
+               href="{% url 'plugins:netbox_vpnaas:dns_list' %}">
+                DNS Servers
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if 'ipv4routes' in request.resolver_match.url_name %}active{% endif %}" 
+               href="{% url 'plugins:netbox_vpnaas:ipv4routes_list' %}">
+                IPv4 Routes
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if 'ipv6routes' in request.resolver_match.url_name %}active{% endif %}" 
+               href="{% url 'plugins:netbox_vpnaas:ipv6routes_list' %}">
+                IPv6 Routes
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if 'ipsecprofile' in request.resolver_match.url_name %}active{% endif %}" 
+               href="{% url 'plugins:netbox_vpnaas:ipsecprofile_list' %}">
+                IPSec Profiles
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if 'tlsprofile' in request.resolver_match.url_name %}active{% endif %}" 
+               href="{% url 'plugins:netbox_vpnaas:tlsprofile_list' %}">
+                TLS Profiles
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if 'termination' in request.resolver_match.url_name %}active{% endif %}" 
+               href="{% url 'plugins:netbox_vpnaas:termination_list' %}">
+                Terminations
+            </a>
+        </li>
+    </ul>
+{% endblock nav-tabs %}

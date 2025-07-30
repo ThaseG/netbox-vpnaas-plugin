@@ -1,0 +1,180 @@
+{% extends 'netbox_vpnaas/base.html' %}
+{% load render_table from django_tables2 %}
+{% load buttons %}
+{% load custom_links %}
+
+{% block content %}
+<div class="row">
+    <div class="col col-md-6">
+        <div class="card">
+            <h5 class="card-header">Remote Access VPN Tunnel</h5>
+            <div class="card-body">
+                <table class="table table-hover attr-table">
+                    <tr>
+                        <td>Name</td>
+                        <td>{{ object.name }}</td>
+                    </tr>
+                    {% if object.group %}
+                    <tr>
+                        <td>Group</td>
+                        <td>{{ object.group }}</td>
+                    </tr>
+                    {% endif %}
+                    <tr>
+                        <td>Technology</td>
+                        <td>
+                            <span class="badge badge-{% if object.technology == 'ipsec' %}info{% else %}primary{% endif %}">
+                                {{ object.get_technology_display }}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Status</td>
+                        <td>
+                            <span class="badge badge-{% if object.status == 'active' %}success{% elif object.status == 'planned' %}warning{% else %}secondary{% endif %}">
+                                {{ object.get_status_display }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% if object.ipsec_profile %}
+                    <tr>
+                        <td>IPSec Profile</td>
+                        <td><a href="{{ object.ipsec_profile.get_absolute_url }}">{{ object.ipsec_profile }}</a></td>
+                    </tr>
+                    {% endif %}
+                    {% if object.tls_profile %}
+                    <tr>
+                        <td>TLS Profile</td>
+                        <td><a href="{{ object.tls_profile.get_absolute_url }}">{{ object.tls_profile }}</a></td>
+                    </tr>
+                    {% endif %}
+                    <tr>
+                        <td>IPv4 VPN Pool</td>
+                        <td>{{ object.ipv4_vpn_ip_pool }}</td>
+                    </tr>
+                    <tr>
+                        <td>IPv6 VPN Pool</td>
+                        <td>{{ object.ipv6_vpn_ip_pool }}</td>
+                    </tr>
+                    {% if object.primary_dns %}
+                    <tr>
+                        <td>Primary DNS</td>
+                        <td><a href="{{ object.primary_dns.get_absolute_url }}">{{ object.primary_dns }}</a></td>
+                    </tr>
+                    {% endif %}
+                    {% if object.secondary_dns %}
+                    <tr>
+                        <td>Secondary DNS</td>
+                        <td><a href="{{ object.secondary_dns.get_absolute_url }}">{{ object.secondary_dns }}</a></td>
+                    </tr>
+                    {% endif %}
+                    {% if object.tenant %}
+                    <tr>
+                        <td>Tenant</td>
+                        <td>{{ object.tenant }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if object.description %}
+                    <tr>
+                        <td>Description</td>
+                        <td>{{ object.description }}</td>
+                    </tr>
+                    {% endif %}
+                </table>
+            </div>
+        </div>
+        {% if object.comments %}
+        <div class="card">
+            <h5 class="card-header">Comments</h5>
+            <div class="card-body">
+                <pre>{{ object.comments }}</pre>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    <div class="col col-md-6">
+        {% if object.server_certificate %}
+        <div class="card">
+            <h5 class="card-header">Server Certificate</h5>
+            <div class="card-body">
+                <pre style="font-size: 0.875em;">{{ object.server_certificate }}</pre>
+            </div>
+        </div>
+        {% endif %}
+        
+        {% if object.terminations.exists %}
+        <div class="card">
+            <h5 class="card-header">Termination Points</h5>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Target</th>
+                            <th>Gateway IP</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for termination in object.terminations.all %}
+                        <tr>
+                            <td><a href="{{ termination.get_absolute_url }}">{{ termination.name }}</a></td>
+                            <td>{{ termination.get_type_display }}</td>
+                            <td>
+                                {% if termination.virtual_machine %}
+                                    {{ termination.virtual_machine }}
+                                {% elif termination.device %}
+                                    {{ termination.device }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                            <td>{{ termination.vpn_gateway_ip|default:"-" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% if object.ipv4_routes_to_vpn or object.ipv4_routes_to_local_breakout or object.ipv6_routes_to_vpn or object.ipv6_routes_to_local_breakout %}
+<div class="row mt-3">
+    <div class="col-12">
+        <div class="card">
+            <h5 class="card-header">Routing Configuration</h5>
+            <div class="card-body">
+                <div class="row">
+                    {% if object.ipv4_routes_to_vpn %}
+                    <div class="col-md-6">
+                        <h6>IPv4 Routes to VPN</h6>
+                        <p><a href="{{ object.ipv4_routes_to_vpn.get_absolute_url }}">{{ object.ipv4_routes_to_vpn }}</a></p>
+                    </div>
+                    {% endif %}
+                    {% if object.ipv4_routes_to_local_breakout %}
+                    <div class="col-md-6">
+                        <h6>IPv4 Routes to Local Breakout</h6>
+                        <p><a href="{{ object.ipv4_routes_to_local_breakout.get_absolute_url }}">{{ object.ipv4_routes_to_local_breakout }}</a></p>
+                    </div>
+                    {% endif %}
+                    {% if object.ipv6_routes_to_vpn %}
+                    <div class="col-md-6">
+                        <h6>IPv6 Routes to VPN</h6>
+                        <p><a href="{{ object.ipv6_routes_to_vpn.get_absolute_url }}">{{ object.ipv6_routes_to_vpn }}</a></p>
+                    </div>
+                    {% endif %}
+                    {% if object.ipv6_routes_to_local_breakout %}
+                    <div class="col-md-6">
+                        <h6>IPv6 Routes to Local Breakout</h6>
+                        <p><a href="{{ object.ipv6_routes_to_local_breakout.get_absolute_url }}">{{ object.ipv6_routes_to_local_breakout }}</a></p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

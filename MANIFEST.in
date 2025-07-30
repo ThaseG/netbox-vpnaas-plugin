@@ -1,1 +1,4 @@
--
+include README.md
+include LICENSE
+recursive-include netbox_vpnaas/templates *
+recursive-include netbox_vpnaas/static *
