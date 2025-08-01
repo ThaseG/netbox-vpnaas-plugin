@@ -1,8 +1,6 @@
 # NetBox VPNaaS Plugin
 
-A comprehensive NetBox plugin that provides VPN-as-a-Service capabilities with support for Remote Access VPNs and Site-to-Site VPNs using containerized deployments with auto-scaling.
-
-This plugin extends NetBox to manage and orchestrate VPN services, integrating network documentation with automated VPN provisioning and lifecycle management. It supports multiple VPN technologies deployed as scalable container workloads.
+A comprehensive NetBox plugin that provides VPN-as-a-Service capabilities with support for Remote Access VPNs and Site-to-Site VPNs using containerized deployments.
 
 ## Features
 
@@ -18,14 +16,7 @@ This plugin extends NetBox to manage and orchestrate VPN services, integrating n
 
 ### Site-to-Site VPN (Planned)
 - IPSec tunnels between network sites
-- Automated provisioning based on NetBox data
-
-### Management Features
-- **API-driven**: Full REST API for external integrations
-- **Web Interface**: Complete NetBox-style web interface
-- **Multi-tenancy**: Tenant and contact assignment
-- **Tagging**: Full NetBox tagging support
-- **Filtering**: Advanced filtering and search capabilities
+- TBD
 
 ## API Endpoints
 
@@ -220,28 +211,6 @@ The plugin implements the following models:
 - **Termination**: VPN termination point definitions
 
 ## Development
-
-### Project Structure
-```
-netbox_vpnaas/
-├── __init__.py
-├── config.py              # Plugin configuration
-├── models.py              # Django models
-├── admin.py               # Django admin
-├── forms.py               # Web forms
-├── views.py               # Web views
-├── tables.py              # Display tables
-├── urls.py                # URL routing
-├── navigation.py          # Menu items
-├── filtersets.py          # Filtering
-├── api/
-│   ├── serializers.py     # API serializers
-│   ├── views.py           # API viewsets
-│   └── urls.py            # API URLs
-├── migrations/            # Database migrations
-└── templates/             # HTML templates
-    └── netbox_vpnaas/
-```
 
 ### Contributing
 
